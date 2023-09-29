@@ -138,11 +138,17 @@ def main():
         st.markdown(f"[Download the combined audio]({combined_filename})")
 
         # Add button for generating Anki flashcards
-        if st.button("Generate Anki Flashcards"):
-            output_file = "dialogues_deck.apkg"
-            generate_anki_package(output_file, media_files)
-            st.success(f"Flashcards generated! [Download the Anki Package]({output_file})")
+        output_file = "dialogues_deck.apkg"
+        generate_anki_package(output_file, [combined_filename])
 
+        # Now, use the st.download_button to allow downloading the flashcards
+        with open(output_file, "rb") as file:
+            st.download_button(
+                label="Download Flashcards",
+                data=file,
+                file_name="dialogues_deck.apkg",
+                mime="application/octet-stream"
+            )
 
 
 if __name__ == "__main__":
